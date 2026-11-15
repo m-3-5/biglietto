@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antonio Max Castronuovo · M3.5 — Biglietto da visita</title>
+<meta name="description" content="Siti web · App · Software · Grafica · Impianti elettrici certificati. Salva il mio biglietto nei contatti: con il codice BIGLIETTO il tuo sito web a 1 € su inm35.it">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Antonio Max Castronuovo · M3.5">
+<meta property="og:description" content="Salva il mio biglietto nei contatti 📲 Con il codice BIGLIETTO il tuo sito web a 1 € su inm35.it">
+<meta property="og:image" content="https://m-3-5.github.io/biglietto/anteprima.jpg">
+<meta property="og:url" content="https://m-3-5.github.io/biglietto/">
+<meta name="theme-color" content="#030907">
+<link rel="icon" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#00D185;--mint:#96EBC8;--bg:#030907}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:#eaf4ef;font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+canvas#rain{position:fixed;inset:0;z-index:0;opacity:.5}
+main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px 50px;display:flex;flex-direction:column;align-items:center;gap:20px}
+.logo{width:78px}
+.tag{font:600 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--mint);text-transform:uppercase}
+.stage{position:relative;width:100%;aspect-ratio:85/55;perspective:1200px;cursor:pointer}
+.flip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.flip.back{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:center/cover;box-shadow:0 0 0 2px var(--g),0 0 26px #00d18566,0 20px 50px #000c;overflow:hidden}
+.front{background-image:url(fronte.jpg);filter:brightness(.45);transition:filter .9s}
+.on .front{filter:none}
+.rear{background-image:url(retro.jpg);transform:rotateY(180deg)}
+.qr{position:absolute;left:73.5%;top:45.5%;width:19%;height:30%;border-radius:8px;outline:2px solid transparent;animation:pulse 2s infinite}
+@keyframes pulse{50%{outline-color:var(--g);box-shadow:0 0 18px var(--g)}}
+.coupon{position:absolute;left:6.5%;top:56%;width:61%;height:29%}
+.scan{position:absolute;left:0;right:0;height:3px;top:0;background:linear-gradient(90deg,transparent,var(--g),transparent);box-shadow:0 0 18px var(--g);opacity:0;pointer-events:none}
+.scan.go{animation:scan 1s ease-in-out 2;opacity:1}
+@keyframes scan{0%{top:0}50%{top:100%}100%{top:0}}
+.corners i{position:absolute;width:24px;height:24px;border:2px solid var(--mint);transition:all .7s;pointer-events:none}
+.corners i:nth-child(1){left:-9px;top:-9px;border-right:0;border-bottom:0}
+.corners i:nth-child(2){right:-9px;top:-9px;border-left:0;border-bottom:0}
+.corners i:nth-child(3){left:-9px;bottom:-9px;border-right:0;border-top:0}
+.corners i:nth-child(4){right:-9px;bottom:-9px;border-left:0;border-top:0}
+.on .corners i{border-color:var(--g);transform:scale(.8)}
+.hint{font-size:12px;color:#8fa59c;margin-top:-8px}
+.term{width:100%;background:#050d0bdd;border:1px solid #1d3b31;border-radius:12px;padding:14px 16px;font:13.5px/1.6 'JetBrains Mono',monospace;min-height:186px;white-space:pre-wrap}
+.kw{color:var(--g)}.pr{color:#7cdcfe}.st{color:#f7c873}.fn{color:#82aaff}.cm{color:#8a9ba3}
+.cur{display:inline-block;width:8px;height:15px;background:var(--g);vertical-align:-2px;animation:b 1s steps(1) infinite}
+@keyframes b{50%{opacity:0}}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border-radius:14px;font-weight:800;font-size:17px;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+.save{background:var(--g);color:#03130c;box-shadow:0 0 30px #00d18566}
+.wa{background:#0c1d18;color:#eaf4ef;border:1px solid #1f4a3b}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.row .btn{font-size:15px;font-weight:600}
+.offer{width:100%;border:1.5px dashed var(--mint);border-radius:14px;padding:16px;text-align:center;background:#0b2a20aa;text-decoration:none;color:inherit;display:block}
+.offer .big{font-size:40px;font-weight:800;margin:4px 0}
+.code{display:inline-block;margin-top:8px;font:700 20px 'JetBrains Mono',monospace;color:var(--g);border:1.5px solid var(--mint);border-radius:10px;padding:6px 14px}
+.sedi{width:100%;display:grid;gap:8px}
+.sedi a{display:block;padding:12px 14px;border-radius:12px;background:#08140fcc;border:1px solid #17352b;color:#eaf4ef;text-decoration:none;font-size:14px}
+.sedi b{color:var(--g);font:700 11px 'JetBrains Mono',monospace;letter-spacing:.1em;display:block;margin-bottom:3px}
+.small{font-size:12px;color:#7f958c;text-align:center}
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas>
+<main>
+  <img class="logo" src="logo.png" alt="M3.5">
+  <div class="tag">il mio biglietto da visita</div>
+  <div class="stage" id="stage">
+    <div class="flip" id="flip">
+      <div class="face front"></div>
+      <div class="face rear">
+        <a class="qr" href="https://inm35.it" aria-label="Apri inm35.it"></a>
+        <a class="coupon" href="https://inm35.it" aria-label="Il tuo sito a 1 euro"></a>
+      </div>
+    </div>
+    <div class="scan" id="scan"></div>
+    <div class="corners"><i></i><i></i><i></i><i></i></div>
+  </div>
+  <div class="hint">Tocca il biglietto per girarlo · sul retro il QR è cliccabile</div>
+
+  <a class="btn save" href="max.vcf">📲 Salva nei contatti</a>
+
+  <div class="term" id="term"></div>
+
+  <a class="offer" href="https://inm35.it">
+    <div class="tag">chi ha il mio biglietto</div>
+    <div class="big">1 €</div>
+    <div>il tuo sito web su <b>inm35.it</b></div>
+    <div class="code">BIGLIETTO</div>
+  </a>
+
+  <a class="btn wa" href="https://wa.me/393487564418?text=Ciao%20Max%2C%20ho%20il%20tuo%20biglietto%20da%20visita!">💬 Scrivimi su WhatsApp</a>
+  <div class="row">
+    <a class="btn wa" href="mailto:massimo@inm35.net">✉️ Email</a>
+    <a class="btn wa" href="https://piramide35.com">▲ piramide35</a>
+  </div>
+
+  <div class="sedi">
+    <a href="https://www.google.com/maps/search/?api=1&query=Via+Soldato+Belfi+Giuseppe+11+85038+Senise+PZ"><b>// SEDE LEGALE</b>Via Soldato Belfi Giuseppe 11 · 85038 Senise (PZ)</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Tecnopolo+Tiburtino+Via+Giacomo+Peroni+00131+Roma"><b>// ROMA</b>Tecnopolo Tiburtino · Via Giacomo Peroni · 00131 Roma</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Contrada+Metuoio+85038+Senise+PZ"><b>// SEDE OPERATIVA</b>Contrada Metuoio · 85038 Senise (PZ)</a>
+  </div>
+  <p class="small">M 3.5 S.R.L. · PMI Innovativa · +39 348 756 4418 · massimo@inm35.net</p>
+</main>
+<script>
+const c=document.getElementById('rain'),x=c.getContext('2d');let drops=[];
+function size(){c.width=innerWidth;c.height=innerHeight;drops=Array(Math.floor(c.width/14)).fill(0).map(()=>Math.random()*-60)}
+size();addEventListener('resize',size);
+const chs='0101M3.5{}<>/=;()[]#*+ABCDEF7';
+setInterval(()=>{x.fillStyle='rgba(3,9,7,.12)';x.fillRect(0,0,c.width,c.height);x.font='13px monospace';
+ drops.forEach((d,i)=>{x.fillStyle=Math.random()<.05?'#9ff5cf':'#0f6b47';x.fillText(chs[Math.random()*chs.length|0],i*14,d*16);drops[i]=d*16>c.height&&Math.random()>.97?0:d+1})},55);
+const lines=[[['kw','const '],['pr','max'],['',' = {']],
+ [['pr','  fa'],['',': ['],['st','"siti"'],['',', '],['st','"app"'],['',', '],['st','"software"'],['',', '],['st','"grafica"'],['','],']],
+ [['pr','  certifica'],['',': '],['st','"impianti elettrici"'],['',',']],
+ [['pr','  traduce'],['',': ['],['st','"EN"'],['',', '],['st','"FR"'],['',', '],['st','"AR"'],['',']']],
+ [['','};']],
+ [['pr','max'],['','.'],['fn','scrivimi'],['','();']],
+ [['cm','// il tuo progetto parte da qui']]];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function type(){const t=document.getElementById('term');
+ for(const ln of lines){const div=document.createElement('div');t.appendChild(div);
+  for(const [cl,s] of ln){const sp=document.createElement('span');if(cl)sp.className=cl;div.appendChild(sp);for(const ch of s){sp.textContent+=ch;await sleep(20)}}
+  await sleep(90)}
+ const cu=document.createElement('span');cu.className='cur';t.lastChild.appendChild(cu)}
+(async()=>{const st=document.getElementById('stage');document.getElementById('scan').classList.add('go');
+ await sleep(2000);st.classList.add('on');await sleep(500);type()})();
+document.getElementById('stage').addEventListener('click',e=>{if(e.target.closest('a'))return;document.getElementById('flip').classList.toggle('back')});
+</script>
+</body>
+</html>
