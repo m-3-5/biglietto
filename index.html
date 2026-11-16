@@ -22,6 +22,10 @@ main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px
 .logo{width:78px}
 .tag{font:600 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--mint);text-transform:uppercase}
 .stage{position:relative;width:100%;aspect-ratio:85/55;perspective:1200px;cursor:pointer}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d;transform:translateY(40px) rotateX(52deg) rotateZ(-14deg) scale(.82);opacity:.0;transition:transform 1.6s cubic-bezier(.2,.8,.2,1),opacity .6s}
+.tilt.in{opacity:1}
+.tilt.up{transform:none}
+.corners{opacity:0;transition:opacity .5s}.up~.corners,.ready .corners{opacity:1}
 .flip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
 .flip.back{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:center/cover;box-shadow:0 0 0 2px var(--g),0 0 26px #00d18566,0 20px 50px #000c;overflow:hidden}
@@ -48,6 +52,8 @@ main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px
 .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border-radius:14px;font-weight:800;font-size:17px;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
 .save{background:var(--g);color:#03130c;box-shadow:0 0 30px #00d18566}
 .wa{background:#0c1d18;color:#eaf4ef;border:1px solid #1f4a3b}
+.whatsapp{background:#25D366;color:#fff;box-shadow:0 0 26px #25d36655}
+.save{background:#eaf4ef!important;color:#03130c!important;box-shadow:0 0 26px #96ebc844!important}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
 .row .btn{font-size:15px;font-weight:600}
 .offer{width:100%;border:1.5px dashed var(--mint);border-radius:14px;padding:16px;text-align:center;background:#0b2a20aa;text-decoration:none;color:inherit;display:block}
@@ -66,19 +72,20 @@ main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px
   <img class="logo" src="logo.png" alt="M3.5">
   <div class="tag">il mio biglietto da visita</div>
   <div class="stage" id="stage">
-    <div class="flip" id="flip">
+    <div class="tilt" id="tilt"><div class="flip" id="flip">
       <div class="face front"></div>
       <div class="face rear">
         <a class="qr" href="https://inm35.it" aria-label="Apri inm35.it"></a>
         <a class="coupon" href="https://inm35.it" aria-label="Il tuo sito a 1 euro"></a>
       </div>
     </div>
+    </div>
     <div class="scan" id="scan"></div>
     <div class="corners"><i></i><i></i><i></i><i></i></div>
   </div>
   <div class="hint">Tocca il biglietto per girarlo · sul retro il QR è cliccabile</div>
 
-  <a class="btn save" href="max.vcf" type="text/vcard">📲 Salva nei contatti</a>
+  <a class="btn save" href="antonio-max-castronuovo.vcf?v=3">📲 Salva nei contatti</a>
   <div class="small" id="savehint">Si apre la scheda del contatto: tocca <b>Salva</b> / <b>Aggiungi</b>.<br>Su Android, se scarica soltanto: apri il file dalla notifica “Download completato” e scegli <b>Contatti</b>.</div>
   <div class="small" id="inapp" style="display:none;color:#f7c873">Stai usando il browser interno di WhatsApp/Instagram: tocca ⋮ o ••• e scegli <b>Apri nel browser</b> per salvare il contatto.</div>
 
@@ -91,10 +98,13 @@ main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px
     <div class="code">BIGLIETTO</div>
   </a>
 
-  <a class="btn wa" href="https://wa.me/393487564418?text=Ciao%20Max%2C%20ho%20il%20tuo%20biglietto%20da%20visita!">💬 Scrivimi su WhatsApp</a>
+  <a class="btn whatsapp" href="https://wa.me/393487564418?text=Ciao%20Max%2C%20ho%20il%20tuo%20biglietto%20da%20visita!">💬 Scrivimi su WhatsApp</a>
   <div class="row">
-    <a class="btn wa" href="mailto:massimo@inm35.net">✉️ Email</a>
-    <a class="btn wa" href="https://piramide35.com">▲ piramide35</a>
+    <a class="btn wa" href="https://inm35.it">🌐 inm35.it</a>
+    <a class="btn wa" href="https://piramide35.com">▲ piramide35.com</a>
+  </div>
+  <div class="row" style="grid-template-columns:1fr">
+    <a class="btn wa" href="mailto:massimo@inm35.net">✉️ massimo@inm35.net</a>
   </div>
 
   <p class="small">M 3.5 S.R.L. · PMI Innovativa · Senise · Roma</p>
@@ -119,7 +129,9 @@ async function type(){const t=document.getElementById('term');
   for(const [cl,s] of ln){const sp=document.createElement('span');if(cl)sp.className=cl;div.appendChild(sp);for(const ch of s){sp.textContent+=ch;await sleep(20)}}
   await sleep(90)}
  const cu=document.createElement('span');cu.className='cur';t.lastChild.appendChild(cu)}
-(async()=>{const st=document.getElementById('stage');document.getElementById('scan').classList.add('go');
+(async()=>{const st=document.getElementById('stage'),tl=document.getElementById('tilt');
+ await sleep(150);tl.classList.add('in');await sleep(900);tl.classList.add('up');await sleep(1500);st.classList.add('ready');
+ document.getElementById('scan').classList.add('go');
  await sleep(2000);st.classList.add('on');await sleep(500);type()})();
 if(/FBAN|FBAV|Instagram|WhatsApp|Line\/|; wv\)/i.test(navigator.userAgent))document.getElementById('inapp').style.display='block';
 document.getElementById('stage').addEventListener('click',e=>{if(e.target.closest('a'))return;document.getElementById('flip').classList.toggle('back')});
