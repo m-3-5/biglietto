@@ -1,15 +1,15 @@
 BEGIN:VCARD
-VERSION:3.0
+VERSION:2.1
 N:Castronuovo;Antonio Max;;;
 FN:Antonio Max Castronuovo
 ORG:M 3.5 S.R.L.
 TITLE:Siti web - App - Software - Grafica - Impianti elettrici
-TEL;TYPE=CELL,VOICE,PREF:+393487564418
-EMAIL;TYPE=INTERNET,WORK:massimo@inm35.net
+TEL;CELL;PREF:+393487564418
+EMAIL;WORK:massimo@inm35.net
 URL:https://inm35.it
 URL:https://piramide35.com
-ADR;TYPE=WORK,PREF:;;Via Soldato Belfi Giuseppe 11;Senise;PZ;85038;Italia
-ADR;TYPE=WORK:;;Tecnopolo Tiburtino\, Via Giacomo Peroni;Roma;RM;00131;Italia
-ADR;TYPE=WORK:;;Contrada Metuoio;Senise;PZ;85038;Italia
-NOTE:Con il mio biglietto da visita il tuo sito web a 1 euro su inm35.it - codice BIGLIETTO
+ADR;WORK;PREF:;;Via Soldato Belfi Giuseppe 11;Senise;PZ;85038;Italia
+ADR;WORK:;;Tecnopolo Tiburtino - Via Giacomo Peroni;Roma;RM;00131;Italia
+ADR;WORK:;;Contrada Metuoio;Senise;PZ;85038;Italia
+NOTE:Con il mio biglietto il tuo sito web a 1 euro su inm35.it - codice BIGLIETTO
 END:VCARD
