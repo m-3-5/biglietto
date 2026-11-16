@@ -56,6 +56,7 @@ main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px
 .sedi{width:100%;display:grid;gap:8px}
 .sedi a{display:block;padding:12px 14px;border-radius:12px;background:#08140fcc;border:1px solid #17352b;color:#eaf4ef;text-decoration:none;font-size:14px}
 .sedi b{color:var(--g);font:700 11px 'JetBrains Mono',monospace;letter-spacing:.1em;display:block;margin-bottom:3px}
+#savehint{margin-top:-10px;line-height:1.5}
 .small{font-size:12px;color:#7f958c;text-align:center}
 </style>
 </head>
@@ -77,7 +78,9 @@ main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px
   </div>
   <div class="hint">Tocca il biglietto per girarlo · sul retro il QR è cliccabile</div>
 
-  <a class="btn save" href="max.vcf">📲 Salva nei contatti</a>
+  <a class="btn save" href="max.vcf" type="text/vcard">📲 Salva nei contatti</a>
+  <div class="small" id="savehint">Si apre la scheda del contatto: tocca <b>Salva</b> / <b>Aggiungi</b>.<br>Su Android, se scarica soltanto: apri il file dalla notifica “Download completato” e scegli <b>Contatti</b>.</div>
+  <div class="small" id="inapp" style="display:none;color:#f7c873">Stai usando il browser interno di WhatsApp/Instagram: tocca ⋮ o ••• e scegli <b>Apri nel browser</b> per salvare il contatto.</div>
 
   <div class="term" id="term"></div>
 
@@ -94,12 +97,7 @@ main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:26px 18px
     <a class="btn wa" href="https://piramide35.com">▲ piramide35</a>
   </div>
 
-  <div class="sedi">
-    <a href="https://www.google.com/maps/search/?api=1&query=Via+Soldato+Belfi+Giuseppe+11+85038+Senise+PZ"><b>// SEDE LEGALE</b>Via Soldato Belfi Giuseppe 11 · 85038 Senise (PZ)</a>
-    <a href="https://www.google.com/maps/search/?api=1&query=Tecnopolo+Tiburtino+Via+Giacomo+Peroni+00131+Roma"><b>// ROMA</b>Tecnopolo Tiburtino · Via Giacomo Peroni · 00131 Roma</a>
-    <a href="https://www.google.com/maps/search/?api=1&query=Contrada+Metuoio+85038+Senise+PZ"><b>// SEDE OPERATIVA</b>Contrada Metuoio · 85038 Senise (PZ)</a>
-  </div>
-  <p class="small">M 3.5 S.R.L. · PMI Innovativa · +39 348 756 4418 · massimo@inm35.net</p>
+  <p class="small">M 3.5 S.R.L. · PMI Innovativa · Senise · Roma</p>
 </main>
 <script>
 const c=document.getElementById('rain'),x=c.getContext('2d');let drops=[];
@@ -123,6 +121,7 @@ async function type(){const t=document.getElementById('term');
  const cu=document.createElement('span');cu.className='cur';t.lastChild.appendChild(cu)}
 (async()=>{const st=document.getElementById('stage');document.getElementById('scan').classList.add('go');
  await sleep(2000);st.classList.add('on');await sleep(500);type()})();
+if(/FBAN|FBAV|Instagram|WhatsApp|Line\/|; wv\)/i.test(navigator.userAgent))document.getElementById('inapp').style.display='block';
 document.getElementById('stage').addEventListener('click',e=>{if(e.target.closest('a'))return;document.getElementById('flip').classList.toggle('back')});
 </script>
 </body>
